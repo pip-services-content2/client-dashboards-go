@@ -123,7 +123,11 @@ func (c *DashboardsMockClientV1) DeleteDashboards(ctx context.Context, correlati
 	for index, v := range c.dashboards {
 		item := *v
 		if filterFunc(&item) {
-			c.dashboards = append(c.dashboards[:index], c.dashboards[index+1:]...)
+			if index < len(c.dashboards) {
+				c.dashboards = append(c.dashboards[:index], c.dashboards[index+1:]...)
+			} else {
+				c.dashboards = c.dashboards[:index]
+			}
 		}
 	}
 	return nil
